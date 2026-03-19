@@ -1,0 +1,26 @@
+int buttonPin = 2;
+int ledPin = 13;
+
+int buttonState = 0;
+int lastButtonState = HIGH; // Start HIGH because of INPUT_PULLUP
+int ledState = LOW;
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  buttonState = digitalRead(buttonPin);
+
+  // Check if button was just pressed (transition from HIGH to LOW)
+  if (buttonState == LOW && lastButtonState == HIGH) {
+    ledState = !ledState; // Toggle LED state
+    delay(50); // debounce
+  }
+  
+  // You MUST update the last state for the next loop
+  lastButtonState = buttonState;
+
+  digitalWrite(ledPin, ledState);
+} // <--- This was the missing bracket!
